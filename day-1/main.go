@@ -7,6 +7,10 @@ import (
 	"strings"
 )
 
+func sumSet(depths []int, depth int, index int) int {
+	return depth + depths[index+1] + depths[index+2]
+}
+
 func main() {
 	dat, err := os.ReadFile("depths.txt")
 	if err != nil {
@@ -32,13 +36,13 @@ func main() {
 	timesDepthIncreased := 0
 
 	for i, depth := range depths {
-		if i != 0 {
-			prevDepth := depths[i-1]
+		if i+3 < len(depths) && i != 0 {
+			currentSet := sumSet(depths, depth, i)
+			previousSet := sumSet(depths, depths[i-1], i-1)
 
-			if depth > prevDepth {
+			if currentSet > previousSet {
 				timesDepthIncreased++
 			}
-
 		}
 	}
 
